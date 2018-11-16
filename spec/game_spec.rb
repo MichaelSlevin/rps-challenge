@@ -1,7 +1,7 @@
 require "game"
 
 context Game do
-  let(:game) { game = Game.new("Michael") }
+  let(:game) { Game.new("Michael") }
   it "#name returns the name that is entered on initialisation" do
     expect(game.name).to eq("Michael")
   end
@@ -13,6 +13,6 @@ context Game do
     expect(["Rock", "Paper", "Scissors"]).to include(game.generate_move)
   end
   it "#result returns win lose or draw" do
-      expect(game.result(["Rock","Rock"])).to eq "Draw"
+    expect(game.result(["Rock", "Rock"])).to eq "Draw"
   end
 end
