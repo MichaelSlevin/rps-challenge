@@ -1,5 +1,8 @@
 require 'sinatra/base'
 require "./lib/game.rb"
+require "./lib/player.rb"
+require "./lib/computer_player.rb"
+
 
 class RPS < Sinatra::Base
 
@@ -8,7 +11,7 @@ class RPS < Sinatra::Base
   end
 
   post '/initialize' do
-    Game.start(params['Player'])
+    params['Player2'] == "" ? Game.start(Player.new(params['Player1'])) : Game.start(Player.new(params['Player1']),Player.new(params['Player2']))
     redirect("play")
   end
 
@@ -19,15 +22,15 @@ class RPS < Sinatra::Base
   end
 
   get '/result' do
-    @name = Game.instance.name
+    @name = Game.instance.names[0]
     @move = Game.instance.last_move[0]
-    @result = Game.instance.result(Game.instance.last_move)
+    @result = Game.instance.result
     @computer_move = Game.instance.last_move[1]
     erb(:result)
   end
 
   get '/play' do
-    @name = Game.instance.name
+    @name = Game.instance.names[0]
     erb(:play)
   end
 

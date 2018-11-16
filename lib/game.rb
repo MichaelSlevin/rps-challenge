@@ -1,67 +1,30 @@
+require_relative "move_handler.rb"
 class Game
 
-  attr_reader :name, :last_move, :possible_moves
+  attr_reader :names, :last_move, :possible_moves, :players, :move_handler, :result
 
-  def self.start(name)
-    @last_move = [nil, nil]
-    @@game = Game.new(name)
+  def self.start(player1,player2=Computer_player.new)
+    @@game = Game.new(player1,player2)
   end
 
   def self.instance
     @@game
   end
 
-  def initialize(name)
-    @name = name
+  def initialize(player1, player2, move_handler = Move_handler.new)
+    @players = [player1, player2]
+    @names = [player1.name, player2.name]
     @possible_moves = ["Rock", "Paper", "Scissors"]
+    @move_handler = move_handler
   end
 
-  def make_move(move, computer_move = generate_move)
-    @last_move = [move, computer_move]
-    result(@last_move)
+  def make_move(move1, move2 = nil)
+    players[0].do_move(move1)
+    players[1].do_move(move2)
+    @last_move = [players[0].move, players[1].move]
+    result = move_handler.do_round(@last_move)
+    @result = result == -1 ? "It's a draw" : "#{players[result].name} Wins!"
+    return @result
   end
 
-  def result(last_move)
-    return "Draw" if last_move[1] == last_move[0]
-    case last_move[0]
-    when "Rock"
-      return plays_rock(last_move[1])
-    when "Paper"
-      return plays_paper(last_move[1])
-    when "Scissors"
-      return plays_scissors(last_move[1])
-    end
-  end
-
-  def generate_move
-    @possible_moves.sample
-  end
-
-  private
-  def plays_rock(computer_move)
-    case computer_move
-    when "Scissors"
-      return "Win"
-    when "Paper"
-      return "Lose"
-    end
-  end
-
-  def plays_scissors(computer_move)
-    case computer_move
-    when "Rock"
-      return "Lose"
-    when "Paper"
-      return "Win"
-    end
-  end
-
-  def plays_paper(computer_move)
-    case computer_move
-    when "Scissors"
-      return "Lose"
-    when "Rock"
-      return "Win"
-    end
-  end
 end
