@@ -5,11 +5,13 @@
   </header>
 
   <body>
-    <%# <%= "<p> You selected #{@move}, the computer selected #{@computer_move}. You #{@result}!</p>" if @move.nil? %> %>
+
+
     <p>
-      <%= @name %>: let's play!
+        <%= "You selected #{@move}, the computer selected #{@computer_move}. You #{@result}!" %>
+
     </p>
-    <form action="/make-move" method="post">
+    <!-- <form action="/make-move" method="post">
       <p>
         <input type="radio" name="choice" value="Rock" id="Rock" /> Rock
         <br />
@@ -20,7 +22,7 @@
       <p>
         <input type="submit" value="Submit" />
       </p>
-    </form>
+    </form> -->
   </body>
 
 </html>
